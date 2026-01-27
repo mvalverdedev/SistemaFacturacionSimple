@@ -1,0 +1,35 @@
+using Microsoft.EntityFrameworkCore;
+using SistemaFacturacion.Domain.Common;
+using SistemaFacturacion.Domain.Entities;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace SistemaFacturacion.Infrastructure.Persistence
+{
+    public class ContextoAplicacion : DbContext
+    {
+        public ContextoAplicacion(DbContextOptions<ContextoAplicacion> options) : base(options)
+        {
+        }
+
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Producto> Productos { get; set; }
+        public DbSet<MetodoPago> MetodosPago { get; set; }
+        public DbSet<Factura> Facturas { get; set; }
+        public DbSet<DetalleFactura> DetallesFactura { get; set; }
+        public DbSet<PagoFactura> PagosFactura { get; set; }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
+    }
+}
