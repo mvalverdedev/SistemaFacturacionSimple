@@ -25,6 +25,11 @@ namespace SistemaFacturacion.Infrastructure.Repositories
             return await _dbContext.Set<T>().ToListAsync();
         }
 
+        public async Task<IReadOnlyList<T>> ObtenerAsync(System.Linq.Expressions.Expression<System.Func<T, bool>> predicado)
+        {
+            return await _dbContext.Set<T>().Where(predicado).ToListAsync();
+        }
+
         public async Task<T> AgregarAsync(T entidad)
         {
             await _dbContext.Set<T>().AddAsync(entidad);

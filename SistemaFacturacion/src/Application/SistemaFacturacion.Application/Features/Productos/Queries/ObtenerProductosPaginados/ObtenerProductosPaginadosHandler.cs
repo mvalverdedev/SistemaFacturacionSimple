@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SistemaFacturacion.Application.Features.Productos.Queries.ObtenerProductosPaginados
 {
-    public class ObtenerProductosPaginadosManejador : IRequestHandler<ObtenerProductosPaginadosQuery, RespuestaPaginada<IReadOnlyList<ProductoDto>>>
+    public class ObtenerProductosPaginadosHandler : IRequestHandler<ObtenerProductosPaginadosQuery, RespuestaPaginada<IReadOnlyList<ProductoDto>>>
     {
         private readonly IProductoQuery _productoQuery;
 
-        public ObtenerProductosPaginadosManejador(IProductoQuery productoQuery)
+        public ObtenerProductosPaginadosHandler(IProductoQuery productoQuery)
         {
             _productoQuery = productoQuery;
         }

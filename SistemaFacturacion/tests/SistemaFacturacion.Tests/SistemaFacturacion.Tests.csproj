@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\src\Application\SistemaFacturacion.Application\SistemaFacturacion.Application.csproj" />
     <ProjectReference Include="..\..\src\Domain\SistemaFacturacion.Domain\SistemaFacturacion.Domain.csproj" />
     <ProjectReference Include="..\..\src\Infrastructure\SistemaFacturacion.Infrastructure\SistemaFacturacion.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\libs\SistemaFacturacion.Encryption\SistemaFacturacion.Encryption.csproj" />
   </ItemGroup>
 
 </Project>

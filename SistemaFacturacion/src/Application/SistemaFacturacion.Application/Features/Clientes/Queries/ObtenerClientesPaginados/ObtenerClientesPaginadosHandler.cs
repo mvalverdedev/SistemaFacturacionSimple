@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SistemaFacturacion.Application.Features.Clientes.Queries.ObtenerClientesPaginados
 {
-    public class ObtenerClientesPaginadosManejador : IRequestHandler<ObtenerClientesPaginadosQuery, RespuestaPaginada<IReadOnlyList<ClienteDto>>>
+    public class ObtenerClientesPaginadosHandler : IRequestHandler<ObtenerClientesPaginadosQuery, RespuestaPaginada<IReadOnlyList<ClienteDto>>>
     {
         private readonly IClienteQuery _clienteQuery;
 
-        public ObtenerClientesPaginadosManejador(IClienteQuery clienteQuery)
+        public ObtenerClientesPaginadosHandler(IClienteQuery clienteQuery)
         {
             _clienteQuery = clienteQuery;
         }

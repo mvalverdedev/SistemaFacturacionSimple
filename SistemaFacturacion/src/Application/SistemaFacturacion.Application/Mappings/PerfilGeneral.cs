@@ -22,10 +22,14 @@ namespace SistemaFacturacion.Application.Mappings
             // Mapeo para detalle de factura con nombre de producto
             CreateMap<DetalleFactura, DetalleFacturaDto>()
                 .ForMember(dest => dest.NombreProducto, opt => opt.MapFrom(src => src.Producto.Nombre));
+
+            CreateMap<MetodoPago, MetodoPagoDto>();
             #endregion
 
             #region Commands
             CreateMap<Features.Clientes.Commands.CrearCliente.CrearClienteComando, Cliente>();
+            CreateMap<Features.Usuarios.Commands.CrearUsuario.CrearUsuarioCommand, Usuario>();
+            CreateMap<Features.Productos.Commands.CrearProducto.CrearProductoCommand, Producto>();
             #endregion
         }
     }

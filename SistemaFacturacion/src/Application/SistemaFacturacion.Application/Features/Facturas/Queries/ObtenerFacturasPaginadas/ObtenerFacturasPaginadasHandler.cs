@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SistemaFacturacion.Application.Features.Facturas.Queries.ObtenerFacturasPaginadas
 {
-    public class ObtenerFacturasPaginadasManejador : IRequestHandler<ObtenerFacturasPaginadasQuery, RespuestaPaginada<IReadOnlyList<FacturaDto>>>
+    public class ObtenerFacturasPaginadasHandler : IRequestHandler<ObtenerFacturasPaginadasQuery, RespuestaPaginada<IReadOnlyList<FacturaDto>>>
     {
         private readonly IFacturaQuery _facturaQuery;
 
-        public ObtenerFacturasPaginadasManejador(IFacturaQuery facturaQuery)
+        public ObtenerFacturasPaginadasHandler(IFacturaQuery facturaQuery)
         {
             _facturaQuery = facturaQuery;
         }

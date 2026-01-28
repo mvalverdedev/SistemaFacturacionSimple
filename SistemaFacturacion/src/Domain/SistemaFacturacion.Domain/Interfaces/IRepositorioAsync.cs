@@ -7,6 +7,7 @@ namespace SistemaFacturacion.Domain.Interfaces
     {
         Task<T> ObtenerPorIdAsync(int id);
         Task<IReadOnlyList<T>> ObtenerTodosAsync();
+        Task<IReadOnlyList<T>> ObtenerAsync(System.Linq.Expressions.Expression<System.Func<T, bool>> predicado);
         Task<T> AgregarAsync(T entidad);
         Task ActualizarAsync(T entidad);
         Task EliminarAsync(T entidad);

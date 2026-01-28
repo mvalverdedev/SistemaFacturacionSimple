@@ -1,3 +1,5 @@
+USE SistemaFacturacionDB
+GO
 
 select * from [dbo].[Usuarios]
 select * from [dbo].[Clientes]

@@ -20,7 +20,8 @@ BEGIN
         NombreCompleto NVARCHAR(100) NOT NULL,
         Rol NVARCHAR(20) DEFAULT 'Vendedor', -- 'Admin', 'Vendedor'
         Activo BIT DEFAULT 1,
-        FechaCreacion DATETIME DEFAULT GETDATE()
+        FechaCreacion DATETIME DEFAULT GETDATE(),
+		FechaActualizacion DATETIME
     );
 END
 GO
@@ -35,7 +36,9 @@ BEGIN
         Telefono NVARCHAR(20) NULL,
         Correo NVARCHAR(100) NULL,
         Direccion NVARCHAR(250) NULL,
-        Activo BIT DEFAULT 1
+        Activo BIT DEFAULT 1,
+		FechaCreacion DATETIME DEFAULT GETDATE(),
+		FechaActualizacion DATETIME
     );
 END
 GO
@@ -49,7 +52,9 @@ BEGIN
         Nombre NVARCHAR(100) NOT NULL,
         PrecioUnitario DECIMAL(18, 2) NOT NULL,
         Stock INT DEFAULT 0,
-        Activo BIT DEFAULT 1
+        Activo BIT DEFAULT 1,
+		FechaCreacion DATETIME DEFAULT GETDATE(),
+		FechaActualizacion DATETIME
     );
 END
 GO
@@ -60,7 +65,9 @@ BEGIN
     CREATE TABLE MetodosPago (
         Id INT PRIMARY KEY IDENTITY(1,1),
         Nombre NVARCHAR(50) NOT NULL, -- Efectivo, Tarjeta, etc
-        Activo BIT DEFAULT 1
+        Activo BIT DEFAULT 1,
+		FechaCreacion DATETIME DEFAULT GETDATE(),
+		FechaActualizacion DATETIME
     );
 END
 GO
@@ -77,6 +84,7 @@ BEGIN
         IdUsuario INT NOT NULL, -- Vendedor
         Total DECIMAL(18, 2) NOT NULL,
         FechaCreacion DATETIME DEFAULT GETDATE(),
+		FechaActualizacion DATETIME,
 
         CONSTRAINT FK_Facturas_Clientes FOREIGN KEY (IdCliente) REFERENCES Clientes(Id),
         CONSTRAINT FK_Facturas_Usuarios FOREIGN KEY (IdUsuario) REFERENCES Usuarios(Id)
@@ -94,6 +102,8 @@ BEGIN
         Cantidad INT NOT NULL,
         PrecioUnitario DECIMAL(18, 2) NOT NULL,
         SubTotal DECIMAL(18, 2) NOT NULL, -- (Cantidad * PrecioUnitario)
+		FechaCreacion DATETIME DEFAULT GETDATE(),
+		FechaActualizacion DATETIME,
 
         CONSTRAINT FK_Detalles_Facturas FOREIGN KEY (IdFactura) REFERENCES Facturas(Id),
         CONSTRAINT FK_Detalles_Productos FOREIGN KEY (IdProducto) REFERENCES Productos(Id)
@@ -110,6 +120,8 @@ BEGIN
         IdMetodoPago INT NOT NULL,
         Monto DECIMAL(18, 2) NOT NULL,
         FechaPago DATETIME DEFAULT GETDATE(),
+		FechaCreacion DATETIME DEFAULT GETDATE(),
+		FechaActualizacion DATETIME,
 
         CONSTRAINT FK_Pagos_Facturas FOREIGN KEY (IdFactura) REFERENCES Facturas(Id),
         CONSTRAINT FK_Pagos_Metodos FOREIGN KEY (IdMetodoPago) REFERENCES MetodosPago(Id)

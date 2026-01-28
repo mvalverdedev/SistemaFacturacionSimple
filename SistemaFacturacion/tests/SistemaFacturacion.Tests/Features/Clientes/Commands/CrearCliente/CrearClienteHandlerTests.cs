@@ -9,13 +9,13 @@ using Xunit;
 
 namespace SistemaFacturacion.Tests.Features.Clientes.Commands.CrearCliente
 {
-    public class CrearClienteManejadorTests
+    public class CrearClienteHandlerTests
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IRepositorioAsync<Cliente> _clienteRepository;
 
-        public CrearClienteManejadorTests()
+        public CrearClienteHandlerTests()
         {
             _unitOfWork = Substitute.For<IUnitOfWork>();
             _mapper = Substitute.For<IMapper>();
@@ -49,7 +49,7 @@ namespace SistemaFacturacion.Tests.Features.Clientes.Commands.CrearCliente
             _clienteRepository.AgregarAsync(clienteEntidad).Returns(Task.FromResult(clienteEntidad));
             clienteEntidad.Id = 1; // Simulate ID generation
 
-            var handler = new CrearClienteManejador(_unitOfWork, _mapper);
+            var handler = new CrearClienteHandler(_unitOfWork, _mapper);
 
             // Act
             var resultado = await handler.Handle(comando, CancellationToken.None);

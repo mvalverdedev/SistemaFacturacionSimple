@@ -4,5 +4,6 @@ namespace SistemaFacturacion.Application.DTOs
     {
         public string? Codigo { get; set; }
         public string? Nombre { get; set; }
+        public bool? SoloConStock { get; set; }
     }
 }

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace SistemaFacturacion.Application.Features.Clientes.Commands.CrearCliente
 {
-    public class CrearClienteManejador : IRequestHandler<CrearClienteComando, Respuesta<int>>
+    public class CrearClienteHandler : IRequestHandler<CrearClienteComando, Respuesta<int>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CrearClienteManejador(IUnitOfWork unitOfWork, IMapper mapper)
+        public CrearClienteHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -22,7 +22,6 @@ namespace SistemaFacturacion.Application.Features.Clientes.Commands.CrearCliente
         public async Task<Respuesta<int>> Handle(CrearClienteComando request, CancellationToken cancellationToken)
         {
             var nuevoCliente = _mapper.Map<Cliente>(request);
-            nuevoCliente.Activo = true; // Por defecto
             
             var clienteRepositorio = _unitOfWork.Repository<Cliente>();
             var data = await clienteRepositorio.AgregarAsync(nuevoCliente);

@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 namespace SistemaFacturacion.Application.Features.Facturas.Queries.ObtenerFacturaPorId
 {
     /// <summary>
-    /// Manejador para procesar la consulta de factura por ID
+    /// Handler para procesar la consulta de factura por ID
     /// </summary>
-    public class ObtenerFacturaPorIdManejador : IRequestHandler<ObtenerFacturaPorIdQuery, FacturaDetalleDto>
+    public class ObtenerFacturaPorIdHandler : IRequestHandler<ObtenerFacturaPorIdQuery, FacturaDetalleDto>
     {
         private readonly IFacturaQuery _facturaQuery;
 
-        public ObtenerFacturaPorIdManejador(IFacturaQuery facturaQuery)
+        public ObtenerFacturaPorIdHandler(IFacturaQuery facturaQuery)
         {
             _facturaQuery = facturaQuery;
         }

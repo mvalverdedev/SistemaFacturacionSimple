@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Domain\SistemaFacturacion.Domain\SistemaFacturacion.Domain.csproj" />
+    <ProjectReference Include="..\..\..\libs\SistemaFacturacion.Encryption\SistemaFacturacion.Encryption.csproj" />
   </ItemGroup>
 
   <ItemGroup>

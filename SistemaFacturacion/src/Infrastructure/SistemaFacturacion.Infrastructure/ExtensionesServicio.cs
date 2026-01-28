@@ -27,6 +27,8 @@ namespace SistemaFacturacion.Infrastructure
             services.AddTransient<SistemaFacturacion.Application.Interfaces.Queries.IProductoQuery, SistemaFacturacion.Infrastructure.Queries.ProductoQuery>();
             services.AddTransient<SistemaFacturacion.Application.Interfaces.Queries.IUsuarioQuery, SistemaFacturacion.Infrastructure.Queries.UsuarioQuery>();
             #endregion
+
+            services.AddTransient<SistemaFacturacion.Application.Interfaces.Services.IJwtService, SistemaFacturacion.Infrastructure.Services.JwtService>();
         }
     }
 }

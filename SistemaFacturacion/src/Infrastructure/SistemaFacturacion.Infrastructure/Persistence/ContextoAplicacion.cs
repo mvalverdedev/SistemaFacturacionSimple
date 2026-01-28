@@ -23,6 +23,19 @@ namespace SistemaFacturacion.Infrastructure.Persistence
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
+            foreach (var entry in ChangeTracker.Entries<EntidadBase>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.FechaCreacion = DateTime.Now;
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.FechaActualizacion = DateTime.Now;
+                        break;
+                }
+            }
+
             return base.SaveChangesAsync(cancellationToken);
         }
 

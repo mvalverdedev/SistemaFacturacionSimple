@@ -9,7 +9,7 @@ namespace SistemaFacturacion.Domain.Entities
         public int IdCliente { get; set; }
         public int IdUsuario { get; set; }
         public decimal Total { get; set; }
-        public DateTime FechaCreacion { get; set; }
+
 
         // Propiedades de Navegacion
         public virtual Cliente Cliente { get; set; }

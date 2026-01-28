@@ -60,6 +60,11 @@ namespace SistemaFacturacion.Infrastructure.Queries
                 query = query.Where(x => x.Nombre.Contains(request.Nombre));
             }
 
+            if (request.SoloConStock.HasValue && request.SoloConStock.Value)
+            {
+                query = query.Where(x => x.Stock > 0);
+            }
+
             return query;
         }
     }
