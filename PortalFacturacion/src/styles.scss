@@ -1,0 +1,31 @@
+/* Angular Material Integration */
+@use '@angular/material' as mat;
+/* Bootstrap Integration */
+@use 'bootstrap/scss/bootstrap';
+/* Toastr */
+@import 'ngx-toastr/toastr';
+
+@include mat.core();
+
+// Centralized Color Palette
+$primary-palette: mat.m2-define-palette(mat.$m2-indigo-palette);
+$accent-palette: mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
+$warn-palette: mat.m2-define-palette(mat.$m2-red-palette);
+
+
+$my-theme: mat.m2-define-light-theme((color: (primary: $primary-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      )));
+
+@include mat.all-component-themes($my-theme);
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

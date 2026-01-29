@@ -39,8 +39,9 @@ bin/
 obj/
 
 # Common node modules locations
-/node_modules
-/wwwroot/node_modules
+# FIX: Removed leading slash to support subdirectories
+node_modules/
+wwwroot/node_modules/
 
 ### VisualStudio ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -402,9 +403,6 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
-# Visual Studio History (VSHistory) files
-.vshistory/
-
 # BeatPulse healthcheck temp database
 healthchecksdb
 
@@ -417,17 +415,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# VS Code files for those working on multiple tools
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-*.code-workspace
-
-# Local History for Visual Studio Code
-.history/
-
 # Windows Installer files from build outputs
 *.cab
 *.msi
@@ -438,7 +425,24 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-### VisualStudio Patch ###
-# Additional files built by Visual Studio
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
 
-# End of https://www.toptal.com/developers/gitignore/api/dotnetcore,angular,visualstudio
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+# Custom: Keep code-workspace files
+*.code-workspace
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide

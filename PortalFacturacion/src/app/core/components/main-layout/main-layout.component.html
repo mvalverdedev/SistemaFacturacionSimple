@@ -1,0 +1,53 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+        <mat-toolbar>Menu</mat-toolbar>
+        <mat-nav-list>
+            <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link"
+                (click)="closeSidenavIfHandset(drawer)">
+                <mat-icon matListItemIcon>dashboard</mat-icon>
+                <div matListItemTitle>Dashboard</div>
+            </a>
+            <!-- Placeholder for future modules -->
+            <a mat-list-item routerLink="/facturas" routerLinkActive="active-link"
+                (click)="closeSidenavIfHandset(drawer)">
+                <mat-icon matListItemIcon>receipt</mat-icon>
+                <span matListItemTitle>Facturas</span>
+            </a>
+            <a mat-list-item routerLink="/clientes" routerLinkActive="active-link"
+                (click)="closeSidenavIfHandset(drawer)">
+                <mat-icon matListItemIcon>people</mat-icon>
+                <span matListItemTitle>Clientes</span>
+            </a>
+            <a mat-list-item routerLink="/productos" routerLinkActive="active-link"
+                (click)="closeSidenavIfHandset(drawer)">
+                <mat-icon matListItemIcon>inventory_2</mat-icon>
+                <span matListItemTitle>Productos</span>
+            </a>
+            <a mat-list-item routerLink="/usuarios" routerLinkActive="active-link"
+                (click)="closeSidenavIfHandset(drawer)">
+                <mat-icon matListItemIcon>manage_accounts</mat-icon>
+                <span matListItemTitle>Usuarios</span>
+            </a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="primary">
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+                *ngIf="isHandset$ | async">
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            <span>Portal Facturación</span>
+            <span class="spacer"></span>
+            <span class="user-info" *ngIf="usuarioActual">Hola, {{ usuarioActual.nombreCompleto ||
+                usuarioActual.nombreUsuario
+                }}</span>
+            <button mat-icon-button (click)="salir()" matTooltip="Cerrar Sesión">
+                <mat-icon>logout</mat-icon>
+            </button>
+        </mat-toolbar>
+        <div class="content-wrapper">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

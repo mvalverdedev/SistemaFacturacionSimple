@@ -1,0 +1,26 @@
+.page-container {
+    padding: 20px;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.full-width-table {
+    width: 100%;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.actions-row {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}

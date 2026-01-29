@@ -1,8 +1,0 @@
-namespace SistemaFacturacion.Application.DTOs
-{
-    public class LoginRequest
-    {
-        public string NombreUsuario { get; set; }
-        public string Clave { get; set; }
-    }
-}
