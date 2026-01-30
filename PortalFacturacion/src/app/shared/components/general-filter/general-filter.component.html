@@ -1,0 +1,37 @@
+<button mat-mini-fab color="primary" class="filter-toggle-btn" (click)="settingsDrawer.toggle()"
+    matTooltip="Búsqueda Avanzada">
+    <mat-icon>search</mat-icon>
+</button>
+
+
+<mat-sidenav-container class="bg-transparent" [hasBackdrop]="true"
+    style="position: absolute; top: 0; left: -21px; width: 0; height: 0; overflow: visible; z-index: 1000;">
+    <mat-sidenav #settingsDrawer class="w-screen min-w-screen sm:w-96 sm:min-w-96 bg-white" [mode]="'over'"
+        [position]="'start'" [fixedInViewport]="true">
+
+        <div class="flex w-full flex-col overflow-auto bg-white h-100">
+            <div class="flex h-20 min-h-20 flex-row items-center bg-primary px-6 text-white py-2">
+                <button class="ml-auto" mat-icon-button (click)="settingsDrawer.close()">
+                    <mat-icon class="text-white">close</mat-icon>
+                </button>
+            </div>
+
+            <div class="flex flex-col p-6 px-3 h-full">
+                <h3 class="text-blue-900 font-bold text-xl my-3">Parámetros de Búsqueda</h3>
+
+                <div class="flex-grow">
+                    <ng-content></ng-content>
+                </div>
+
+                <button mat-raised-button color="primary"
+                    class="w-full h-12 text-lg font-bold mt-6 rounded-lg shadow-md" (click)="onSearch()">
+                    <mat-icon class="mr-2">search</mat-icon> Buscar
+                </button>
+            </div>
+        </div>
+
+    </mat-sidenav>
+
+
+    <mat-sidenav-content></mat-sidenav-content>
+</mat-sidenav-container>

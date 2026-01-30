@@ -1,0 +1,93 @@
+<div class="container-fluid page-container">
+    <app-general-filter (search)="onSearch()">
+        <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <mat-form-field class="w-full">
+                        <mat-label>Número Factura</mat-label>
+                        <input matInput formControlName="numeroFactura" placeholder="Ingrese número">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field class="w-full">
+                        <mat-label>Fecha Creación</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="fechaCreacion"
+                            placeholder="MM/DD/YYYY">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field class="w-full">
+                        <mat-label>Total</mat-label>
+                        <input matInput type="number" formControlName="total" placeholder="Ingrese total">
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </app-general-filter>
+    <div class="header-row">
+        <h1>Facturas</h1>
+        <button mat-raised-button color="primary" routerLink="crear">
+            <mat-icon>add</mat-icon> Nueva Factura
+        </button>
+    </div>
+
+    <mat-card>
+        <mat-card-content>
+            <div class="table-container">
+                <table mat-table [dataSource]="dataSource" matSort class="full-width-table">
+
+
+                    <ng-container matColumnDef="numeroFactura">
+                        <th mat-header-cell *matHeaderCellDef> Número </th>
+                        <td mat-cell *matCellDef="let element"> {{element.numeroFactura}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="fechaCreacion">
+                        <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fechaCreacion | date:'short'}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="nombreCliente">
+                        <th mat-header-cell *matHeaderCellDef> Cliente </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombreCliente}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="nombreVendedor">
+                        <th mat-header-cell *matHeaderCellDef> Vendedor </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombreVendedor}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="total">
+                        <th mat-header-cell *matHeaderCellDef> Total </th>
+                        <td mat-cell *matCellDef="let element"> {{element.total | currency}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let element">
+
+                            <button mat-icon-button color="primary" [routerLink]="['ver', element.id]"
+                                matTooltip="Ver Detalle">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+
+            <mat-paginator [length]="totalRecords" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
+                (page)="cambiarPagina($event)" showFirstLastButtons>
+            </mat-paginator>
+        </mat-card-content>
+    </mat-card>
+</div>

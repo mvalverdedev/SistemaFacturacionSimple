@@ -1,0 +1,182 @@
+<div class="container-fluid page-container">
+    <div class="header-row">
+        <h1>{{ esVer ? 'Detalle de' : 'Nueva' }} Factura {{ facturarPorId?.numeroFactura ? '#' +
+            facturarPorId?.numeroFactura : '' }}
+        </h1>
+        <button mat-button routerLink="/facturas">
+            <mat-icon>arrow_back</mat-icon> Volver
+        </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="guardar()">
+
+        <mat-card class="mb-3">
+            <mat-card-header>
+                <mat-card-title>Datos Generales</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="form-grid mt-4">
+                    <mat-form-field appearance="outline" *ngIf="!esVer">
+                        <mat-label>Numero de Factura</mat-label>
+                        <input matInput formControlName="numeroFactura" placeholder="Ej: FAC-001">
+                        <mat-error *ngIf="form.get('numeroFactura')?.hasError('required')">Requerido</mat-error>
+                    </mat-form-field>
+
+
+
+
+                    <mat-form-field appearance="outline" *ngIf="!esVer">
+                        <mat-label>Cliente</mat-label>
+                        <mat-select formControlName="clienteId">
+                            <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
+                                {{cliente.nombreRazonSocial}} ({{cliente.identificacion}})
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form.get('clienteId')?.hasError('required')">Requerido</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" *ngIf="esVer">
+                        <mat-label>Cliente</mat-label>
+                        <input matInput [value]="facturarPorId?.nombreCliente || ''" readonly [disabled]="true">
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline" *ngIf="!esVer">
+                        <mat-label>Vendedor</mat-label>
+                        <mat-select formControlName="usuarioId">
+                            <mat-option *ngFor="let user of usuarios" [value]="user.id">
+                                {{user.nombreCompleto}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form.get('usuarioId')?.hasError('required')">Requerido</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" *ngIf="esVer">
+                        <mat-label>Vendedor</mat-label>
+                        <input matInput [value]="facturarPorId?.nombreVendedor || ''" readonly [disabled]="true">
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Productos</mat-card-title>
+                <span class="spacer"></span>
+                <button mat-raised-button color="accent" type="button" (click)="agregarDetalle()" *ngIf="!esVer">
+                    <mat-icon>add</mat-icon> Agregar Producto
+                </button>
+            </mat-card-header>
+            <mat-card-content>
+                <div formArrayName="detalles" class="mt-4">
+                    <div *ngFor="let detalle of detalles.controls; let i = index" [formGroupName]="i"
+                        class="detalle-row">
+
+                        <mat-form-field appearance="outline" class="producto-field" *ngIf="!esVer">
+                            <mat-label>Producto</mat-label>
+                            <mat-select formControlName="productoId"
+                                (selectionChange)="productoSeleccionado(i, $event.value)">
+                                <mat-option *ngFor="let prod of productos" [value]="prod.id"
+                                    [disabled]="prod.stock === 0">
+                                    {{prod.nombre}} (Stock: {{prod.stock}}) - {{prod.precioUnitario | currency}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="detalle.get('productoId')?.hasError('required')">Requerido</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="producto-field" *ngIf="esVer">
+                            <mat-label>Producto</mat-label>
+                            <input matInput [value]="detalle.get('productoNombre')?.value" readonly [disabled]="true">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="cantidad-field">
+                            <mat-label>Cantidad</mat-label>
+                            <input matInput type="number" formControlName="cantidad" min="1"
+                                (change)="calcularSubtotal(i)" [readonly]="esVer">
+                            <mat-error *ngIf="detalle.get('cantidad')?.hasError('required')">Requerido</mat-error>
+                            <mat-error *ngIf="detalle.get('cantidad')?.hasError('min')">Mín 1</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="precio-field">
+                            <mat-label>Precio Unit.</mat-label>
+                            <input matInput type="number" formControlName="precioUnitario" readonly [disabled]="true">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="subtotal-field">
+                            <mat-label>Subtotal</mat-label>
+                            <input matInput type="number"
+                                [value]="detalle.get('cantidad')?.value * detalle.get('precioUnitario')?.value" readonly
+                                [disabled]="true">
+                        </mat-form-field>
+
+                        <button mat-icon-button color="warn" type="button" (click)="eliminarDetalle(i)" *ngIf="!esVer">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="total-section">
+                    <h3>Total Factura: {{ form.get('total')?.value | currency }}</h3>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+
+        <mat-card class="mb-3">
+            <mat-card-header>
+                <mat-card-title>Formas de Pago</mat-card-title>
+                <span class="spacer"></span>
+                <button mat-raised-button color="accent" type="button" (click)="agregarPago()" *ngIf="!esVer">
+                    <mat-icon>add</mat-icon> Agregar Forma de Pago
+                </button>
+            </mat-card-header>
+            <mat-card-content>
+                <div *ngFor="let pago of pagos.controls; let i = index" [formGroup]="$any(pago)"
+                    class="detalle-row mt-4">
+                    <div class="detalle-fields">
+                        <mat-form-field appearance="outline" class="metodo-field" *ngIf="!esVer">
+                            <mat-label>Método de Pago</mat-label>
+                            <mat-select formControlName="metodoPagoId">
+                                <mat-option *ngFor="let metodo of metodosPago" [value]="metodo.id">
+                                    {{metodo.nombre}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="pago.get('metodoPagoId')?.hasError('required')">Requerido</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="metodo-field" *ngIf="esVer">
+                            <mat-label>Método de Pago</mat-label>
+                            <input matInput [value]="pago.get('metodoPagoNombre')?.value" readonly [disabled]="true">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="monto-field">
+                            <mat-label>Monto</mat-label>
+                            <input matInput type="number" formControlName="monto" placeholder="0.00" step="0.01"
+                                (input)="calcularTotalPagos()" [readonly]="esVer">
+                            <mat-error *ngIf="pago.get('monto')?.hasError('required')">Requerido</mat-error>
+                            <mat-error *ngIf="pago.get('monto')?.hasError('min')">Debe ser mayor a 0</mat-error>
+                        </mat-form-field>
+
+                        <button mat-icon-button color="warn" type="button" (click)="eliminarPago(i)" *ngIf="!esVer">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="total-section">
+                    <h3>Total Pagos: {{ form.get('totalPagos')?.value | currency }}</h3>
+                    <mat-error *ngIf="form.hasError('pagosMismatch')" class="error-message">
+                        ⚠️ La suma de los pagos debe ser igual al total de la factura
+                    </mat-error>
+                </div>
+            </mat-card-content>
+            <mat-card-actions align="end" *ngIf="!esVer">
+                <button mat-raised-button color="primary" type="submit"
+                    [disabled]="form.invalid || cargando || detalles.length === 0 || pagos.length === 0">
+                    Guardar Factura
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+</div>

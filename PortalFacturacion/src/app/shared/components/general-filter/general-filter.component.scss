@@ -1,0 +1,57 @@
+/* Host element should not take up space in the layout */
+:host {
+    display: block;
+    position: absolute;
+    /* Position relative to the container it's in (.page-container) */
+    top: 5px;
+    left: 15px;
+    width: 0;
+    height: 0;
+    z-index: 50;
+    /* Above normal content, below drawer */
+}
+
+/* Force form fields inside the drawer to be full width and spaced */
+:host ::ng-deep mat-sidenav {
+    mat-form-field {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}
+
+.filter-toggle-btn {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: transparent;
+    /* Or styling as preferred */
+    pointer-events: auto;
+    /* Ensure clickable */
+}
+
+/* Container logic handled inline, but keeping this for backup */
+.mat-drawer-container {
+    background-color: transparent;
+}
+
+:host ::ng-deep .mat-drawer-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+}
+
+/* Button styles */
+.bg-primary {
+    background-color: #3f51b5;
+}
+
+.text-white {
+    color: white;
+}
+
+:host ::ng-deep .mat-drawer.mat-drawer-side {
+    z-index: 1001;
+}
