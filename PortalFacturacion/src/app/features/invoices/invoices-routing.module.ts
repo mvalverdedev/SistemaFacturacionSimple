@@ -6,7 +6,7 @@ import { InvoiceFormComponent } from './pages/invoice-form/invoice-form.componen
 const routes: Routes = [
   { path: '', component: InvoiceListComponent },
   { path: 'crear', component: InvoiceFormComponent },
-  { path: 'ver/:id', component: InvoiceFormComponent } // View Only as typically Invoices are not edited after emission, or maybe edit? Check requirements. usually invoices are final or cancelled. I will assume View/Create.
+  { path: 'ver/:id', component: InvoiceFormComponent }
 ];
 
 @NgModule({

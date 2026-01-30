@@ -11,7 +11,7 @@ export interface Usuario {
   rol: string;
   activo: boolean;
   fechaCreacion?: string;
-  clave?: string; // Solo para crear/actualizar
+  clave?: string;
 }
 
 @Injectable({
@@ -48,10 +48,18 @@ export class UserService {
     localStorage.removeItem(this.STORAGE_KEY);
   }
 
-  obtenerUsuarios(pageNumber: number = 1, pageSize: number = 10): Observable<RespuestaPaginada<Usuario>> {
+  obtenerUsuarios(pageNumber: number = 1, pageSize: number = 10, nombreUsuario?: string, nombreCompleto?: string): Observable<RespuestaPaginada<Usuario>> {
     let params = new HttpParams()
       .set('PageNumber', pageNumber.toString())
       .set('PageSize', pageSize.toString());
+
+    if (nombreUsuario) {
+      params = params.set('NombreUsuario', nombreUsuario);
+    }
+
+    if (nombreCompleto) {
+      params = params.set('NombreCompleto', nombreCompleto);
+    }
 
     return this.http.get<RespuestaPaginada<Usuario>>(this.apiUrl, { params });
   }

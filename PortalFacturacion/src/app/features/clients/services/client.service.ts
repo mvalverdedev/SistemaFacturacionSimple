@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-// import { map } from 'rxjs/operators';
+
 import { environment } from '../../../../environments/environment';
 import { Respuesta, RespuestaPaginada } from '../../../core/models/api-response.model';
 
@@ -49,13 +49,17 @@ export class ClientService {
     localStorage.removeItem(this.STORAGE_KEY);
   }
 
-  obtenerClientes(pageNumber: number = 1, pageSize: number = 10, filtro: string = ''): Observable<RespuestaPaginada<Cliente>> {
+  obtenerClientes(pageNumber: number = 1, pageSize: number = 10, nombreRazonSocial?: string, identificacion?: string): Observable<RespuestaPaginada<Cliente>> {
     let params = new HttpParams()
       .set('PageNumber', pageNumber.toString())
       .set('PageSize', pageSize.toString());
 
-    if (filtro) {
-      // Implementar filtro si es necesario
+    if (nombreRazonSocial) {
+      params = params.set('NombreRazonSocial', nombreRazonSocial);
+    }
+
+    if (identificacion) {
+      params = params.set('Identificacion', identificacion);
     }
 
     return this.http.get<RespuestaPaginada<Cliente>>(this.apiUrl, { params });

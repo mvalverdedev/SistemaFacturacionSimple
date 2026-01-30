@@ -78,15 +78,15 @@ export class UserFormComponent implements OnInit {
 
     if (this.esEdicion && this.id) {
       const userId = +this.id;
-      // Preparar payload para actualizacion (sin nombreUsuario, que el backend no lo espera)
-      // IMPORTANTE: Usar PascalCase para coincidir con el backend C#
+
+
       const usuario: any = {
         Id: userId,
         NombreCompleto: formData.nombreCompleto,
         Rol: formData.rol,
         Activo: formData.activo
       };
-      // Solo enviar clave si fue modificada
+
       if (formData.clave && formData.clave.trim() !== '') {
         usuario.Clave = formData.clave;
       }
@@ -102,7 +102,7 @@ export class UserFormComponent implements OnInit {
         }
       });
     } else {
-      // Crear nuevo usuario
+
       const usuario = {
         nombreUsuario: formData.nombreUsuario,
         nombreCompleto: formData.nombreCompleto,

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -20,19 +21,33 @@ export class ClientListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  searchForm!: FormGroup;
+
   constructor(
     private clientService: ClientService,
     private toastr: ToastrService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.searchForm = this.fb.group({
+      nombreRazonSocial: [''],
+      identificacion: ['']
+    });
+  }
 
   ngOnInit(): void {
     this.cargarClientes();
   }
 
   cargarClientes() {
-    // API usa paginación 1-based, Angular Paginator usa 0-based
-    this.clientService.obtenerClientes(this.pageIndex + 1, this.pageSize)
+    const filters = this.searchForm.value;
+
+    this.clientService.obtenerClientes(
+      this.pageIndex + 1,
+      this.pageSize,
+      filters.nombreRazonSocial || undefined,
+      filters.identificacion || undefined
+    )
       .subscribe({
         next: (response) => {
           this.dataSource.data = response.datos;
@@ -43,6 +58,14 @@ export class ClientListComponent implements OnInit {
           console.error(err);
         }
       });
+  }
+
+  onSearch() {
+    this.pageIndex = 0;
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
+    this.cargarClientes();
   }
 
   editarCliente(cliente: Cliente) {

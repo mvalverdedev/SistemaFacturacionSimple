@@ -9,7 +9,7 @@
     </div>
 
     <form [formGroup]="form" (ngSubmit)="guardar()">
-        <!-- Encabezado -->
+
         <mat-card class="mb-3">
             <mat-card-header>
                 <mat-card-title>Datos Generales</mat-card-title>
@@ -24,7 +24,7 @@
 
 
 
-                    <!-- Cliente -->
+
                     <mat-form-field appearance="outline" *ngIf="!esVer">
                         <mat-label>Cliente</mat-label>
                         <mat-select formControlName="clienteId">
@@ -40,7 +40,7 @@
                         <input matInput [value]="facturarPorId?.nombreCliente || ''" readonly [disabled]="true">
                     </mat-form-field>
 
-                    <!-- Vendedor -->
+
                     <mat-form-field appearance="outline" *ngIf="!esVer">
                         <mat-label>Vendedor</mat-label>
                         <mat-select formControlName="usuarioId">
@@ -59,7 +59,7 @@
             </mat-card-content>
         </mat-card>
 
-        <!-- Detalles -->
+
         <mat-card>
             <mat-card-header>
                 <mat-card-title>Productos</mat-card-title>
@@ -122,7 +122,7 @@
             </mat-card-content>
         </mat-card>
 
-        <!-- Pagos -->
+
         <mat-card class="mb-3">
             <mat-card-header>
                 <mat-card-title>Formas de Pago</mat-card-title>

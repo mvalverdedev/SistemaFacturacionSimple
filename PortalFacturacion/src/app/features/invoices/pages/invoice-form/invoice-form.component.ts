@@ -69,15 +69,15 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   cargarCatalogos() {
-    // Cargar Clientes
+
     this.clientService.obtenerClientes(1, 100).subscribe(res => this.clientes = res.datos);
-    // Cargar Productos
+
     this.productService.obtenerProductos(1, 100).subscribe(res => this.productos = res.datos);
-    // Cargar Usuarios (Vendedores)
+
     this.userService.obtenerUsuarios(1, 100).subscribe(res => {
-      this.usuarios = res.datos; // We could filter by role here if needed
+      this.usuarios = res.datos;
     });
-    // Cargar Metodos Pago
+
     this.invoiceService.obtenerMetodosPago().subscribe(res => this.metodosPago = res.datos);
   }
 
@@ -87,7 +87,7 @@ export class InvoiceFormComponent implements OnInit {
       cantidad: [1, [Validators.required, Validators.min(1)]],
       precioUnitario: [{ value: 0, disabled: false }, Validators.required],
       subtotal: [{ value: 0, disabled: true }],
-      productoNombre: [''] // Helper for view
+      productoNombre: ['']
     });
     this.detalles.push(detalle);
   }
@@ -106,7 +106,7 @@ export class InvoiceFormComponent implements OnInit {
         productoNombre: producto.nombre
       });
 
-      // Validar Stock (Simple validation)
+
       const cantidad = detalle.get('cantidad')?.value;
       if (cantidad > producto.stock) {
         this.toastr.warning(`Stock insuficiente. Disponible: ${producto.stock}`);
@@ -187,10 +187,10 @@ export class InvoiceFormComponent implements OnInit {
         this.form.patchValue({
           numeroFactura: fac.numeroFactura,
           total: fac.total,
-          totalPagos: fac.total // Asumimos que si está facturada, los pagos cuadran
+          totalPagos: fac.total
         });
 
-        // Reconstruct details
+
         if (fac.detalles && fac.detalles.length > 0) {
           fac.detalles.forEach(d => {
             const det = this.fb.group({
@@ -204,11 +204,11 @@ export class InvoiceFormComponent implements OnInit {
           });
         }
 
-        // Reconstruct pagos
+
         if (fac.pagos && fac.pagos.length > 0) {
           fac.pagos.forEach(p => {
             const pago = this.fb.group({
-              metodoPagoId: [null], // No viene ID en la respuesta de detalle
+              metodoPagoId: [null],
               monto: [p.monto],
               metodoPagoNombre: [p.formaPago]
             });
@@ -228,7 +228,7 @@ export class InvoiceFormComponent implements OnInit {
       return;
     }
 
-    // Validar que haya pagos
+
     if (this.pagos.length === 0) {
       this.toastr.error('Debe agregar al menos una forma de pago');
       return;
@@ -236,8 +236,8 @@ export class InvoiceFormComponent implements OnInit {
 
     this.cargando = true;
 
-    const formValue = this.form.getRawValue(); // include disabled fields
-    // IMPORTANTE: Usar PascalCase para coincidir con el backend C#
+    const formValue = this.form.getRawValue();
+
     const comando = {
       NumeroFactura: formValue.numeroFactura,
       IdCliente: formValue.clienteId,

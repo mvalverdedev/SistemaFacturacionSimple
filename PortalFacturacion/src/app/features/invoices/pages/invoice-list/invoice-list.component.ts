@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { InvoiceService, Factura } from '../../services/invoice.service';
@@ -19,17 +20,33 @@ export class InvoiceListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  searchForm!: FormGroup;
+
   constructor(
     private invoiceService: InvoiceService,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    private fb: FormBuilder
+  ) {
+    this.searchForm = this.fb.group({
+      numeroFactura: [''],
+      fechaCreacion: [''],
+      total: [null]
+    });
+  }
 
   ngOnInit(): void {
     this.cargarFacturas();
   }
 
   cargarFacturas() {
-    this.invoiceService.obtenerFacturas(this.pageIndex + 1, this.pageSize)
+    const filters = this.searchForm.value;
+    this.invoiceService.obtenerFacturas(
+      this.pageIndex + 1,
+      this.pageSize,
+      filters.numeroFactura || undefined,
+      filters.fechaCreacion ? this.formatDate(filters.fechaCreacion) : undefined,
+      filters.total || undefined
+    )
       .subscribe({
         next: (response) => {
           if (response.succeeded) {
@@ -45,9 +62,30 @@ export class InvoiceListComponent implements OnInit {
       });
   }
 
+  onSearch() {
+    this.pageIndex = 0;
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
+    this.cargarFacturas();
+  }
+
   cambiarPagina(event: PageEvent) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.cargarFacturas();
+  }
+
+  private formatDate(date: Date | string): string {
+    if (!date) return '';
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
   }
 }

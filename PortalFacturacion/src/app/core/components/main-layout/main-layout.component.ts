@@ -21,13 +21,9 @@ export class MainLayoutComponent {
     );
 
   closeSidenavIfHandset(drawer: any) {
-    this.breakpointObserver.observe(Breakpoints.Handset)
-      .pipe(map(result => result.matches))
-      .subscribe(isHandset => {
-        if (isHandset) {
-          drawer.close();
-        }
-      });
+    if (this.breakpointObserver.isMatched(Breakpoints.Handset)) {
+      drawer.close();
+    }
   }
 
   get usuarioActual() {

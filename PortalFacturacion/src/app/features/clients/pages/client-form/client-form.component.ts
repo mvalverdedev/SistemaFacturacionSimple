@@ -49,8 +49,7 @@ export class ClientFormComponent implements OnInit {
     this.clientService.obtenerClientePorId(id).subscribe({
       next: (response) => {
         if (response.succeeded && response.datos) {
-          // Si el API retorna un array en datos (común en get all pero raro en get by id), manejarlo.
-          // Asumiremos que retorna un objeto Cliente. Si retorna array, tomamos el primero.
+
           const data: any = response.datos;
           const cliente = Array.isArray(data) ? data[0] : data;
 
@@ -83,8 +82,7 @@ export class ClientFormComponent implements OnInit {
 
     if (this.esEdicion && this.id) {
       const clientId = +this.id;
-      // Preparar payload para actualización (sin identificacion, que el backend no lo espera)
-      // IMPORTANTE: Usar PascalCase para coincidir con el backend C#
+
       const cliente = {
         Id: clientId,
         NombreRazonSocial: formData.nombreRazonSocial,
@@ -105,7 +103,7 @@ export class ClientFormComponent implements OnInit {
         }
       });
     } else {
-      // Crear nuevo cliente
+
       const cliente = {
         identificacion: formData.identificacion,
         nombreRazonSocial: formData.nombreRazonSocial,

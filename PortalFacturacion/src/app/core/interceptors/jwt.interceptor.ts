@@ -9,7 +9,7 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private authenticationService: AuthService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // agregar header de autorizacion con el token jwt si el usuario esta logueado y la solicitud es a la api
+
     const usuario = this.authenticationService.valorUsuarioActual;
     const esApiUrl = request.url.startsWith(environment.apiUrl);
     if (usuario && usuario.token && esApiUrl) {

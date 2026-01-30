@@ -29,3 +29,9 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.page-container {
+  position: relative;
+  padding: 20px;
+  /* Ensure some padding exists as per bootstrap usually */
+}

@@ -29,7 +29,7 @@ export interface Factura {
   nombreVendedor: string;
   total: number;
   fechaCreacion: string;
-  // Campos para detalle completo
+
   detalles?: DetalleFactura[];
   pagos?: PagoFactura[];
 }
@@ -54,10 +54,22 @@ export class InvoiceService {
 
   constructor(private http: HttpClient) { }
 
-  obtenerFacturas(pageNumber: number = 1, pageSize: number = 10): Observable<RespuestaPaginada<Factura>> {
+  obtenerFacturas(pageNumber: number = 1, pageSize: number = 10, numeroFactura?: string, fechaCreacion?: string, total?: number): Observable<RespuestaPaginada<Factura>> {
     let params = new HttpParams()
       .set('PageNumber', pageNumber.toString())
       .set('PageSize', pageSize.toString());
+
+    if (numeroFactura) {
+      params = params.set('NumeroFactura', numeroFactura);
+    }
+
+    if (fechaCreacion) {
+      params = params.set('FechaCreacion', fechaCreacion);
+    }
+
+    if (total) {
+      params = params.set('Total', total.toString());
+    }
 
     return this.http.get<RespuestaPaginada<Factura>>(this.apiUrl, { params });
   }
@@ -71,7 +83,7 @@ export class InvoiceService {
   }
 
   obtenerMetodosPago(): Observable<RespuestaPaginada<MetodoPago>> {
-    // Assuming it supports pagination or TraerTodo
+
     let params = new HttpParams().set('TraerTodo', 'true');
     return this.http.get<RespuestaPaginada<MetodoPago>>(this.metodosPagoUrl, { params });
   }

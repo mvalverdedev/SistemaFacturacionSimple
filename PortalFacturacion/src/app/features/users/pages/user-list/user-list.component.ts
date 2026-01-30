@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -20,18 +21,32 @@ export class UserListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  searchForm!: FormGroup;
+
   constructor(
     private userService: UserService,
     private toastr: ToastrService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.searchForm = this.fb.group({
+      nombreUsuario: [''],
+      nombreCompleto: ['']
+    });
+  }
 
   ngOnInit(): void {
     this.cargarUsuarios();
   }
 
   cargarUsuarios() {
-    this.userService.obtenerUsuarios(this.pageIndex + 1, this.pageSize)
+    const filters = this.searchForm.value;
+    this.userService.obtenerUsuarios(
+      this.pageIndex + 1,
+      this.pageSize,
+      filters.nombreUsuario || undefined,
+      filters.nombreCompleto || undefined
+    )
       .subscribe({
         next: (response) => {
           this.dataSource.data = response.datos;
@@ -41,6 +56,14 @@ export class UserListComponent implements OnInit {
           this.toastr.error('Error al cargar usuarios', 'Error');
         }
       });
+  }
+
+  onSearch() {
+    this.pageIndex = 0;
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
+    this.cargarUsuarios();
   }
 
   editarUsuario(usuario: Usuario) {

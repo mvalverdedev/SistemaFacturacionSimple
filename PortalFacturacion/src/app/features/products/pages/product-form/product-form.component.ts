@@ -75,8 +75,8 @@ export class ProductFormComponent implements OnInit {
 
     if (this.esEdicion && this.id) {
       const productId = +this.id;
-      // Preparar payload para actualizacion (sin codigo, que el backend no lo espera)
-      // IMPORTANTE: Usar PascalCase para coincidir con el backend C#
+
+
       const producto = {
         Id: productId,
         Nombre: formData.nombre,
@@ -96,7 +96,7 @@ export class ProductFormComponent implements OnInit {
         }
       });
     } else {
-      // Crear nuevo producto
+
       const producto = {
         codigo: formData.codigo,
         nombre: formData.nombre,

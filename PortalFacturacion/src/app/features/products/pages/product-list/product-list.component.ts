@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -20,18 +21,32 @@ export class ProductListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  searchForm!: FormGroup;
+
   constructor(
     private productService: ProductService,
     private toastr: ToastrService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.searchForm = this.fb.group({
+      codigo: [''],
+      nombre: ['']
+    });
+  }
 
   ngOnInit(): void {
     this.cargarProductos();
   }
 
   cargarProductos() {
-    this.productService.obtenerProductos(this.pageIndex + 1, this.pageSize)
+    const filters = this.searchForm.value;
+    this.productService.obtenerProductos(
+      this.pageIndex + 1,
+      this.pageSize,
+      filters.codigo || undefined,
+      filters.nombre || undefined
+    )
       .subscribe({
         next: (response) => {
           this.dataSource.data = response.datos;
@@ -41,6 +56,14 @@ export class ProductListComponent implements OnInit {
           this.toastr.error('Error al cargar productos', 'Error');
         }
       });
+  }
+
+  onSearch() {
+    this.pageIndex = 0;
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
+    this.cargarProductos();
   }
 
   editarProducto(producto: Producto) {

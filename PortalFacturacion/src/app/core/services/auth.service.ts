@@ -29,11 +29,10 @@ export class AuthService {
       .pipe(map(response => {
         console.log('Login response:', response);
 
-        // La respuesta viene envuelta en un objeto tipo Respuesta<T>
-        // Verificamos si existe 'datos'
+
         const datos = response.datos || response;
 
-        // Handle potential PascalCase from API on the data object
+
         const token = datos.token || datos.Token;
 
         if (token) {
@@ -60,6 +59,6 @@ export class AuthService {
 
   estaAutenticado(): boolean {
     const usuario = this.valorUsuarioActual;
-    return !!(usuario && usuario.token); // Ajustar propiedad token según respuesta real API
+    return !!(usuario && usuario.token);
   }
 }

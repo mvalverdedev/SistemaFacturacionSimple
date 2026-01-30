@@ -5,6 +5,7 @@ import { ClientsRoutingModule } from './clients-routing.module';
 import { ClientListComponent } from './pages/client-list/client-list.component';
 import { ClientFormComponent } from './pages/client-form/client-form.component';
 import { SharedModule } from '../../shared/shared.module';
+import { GeneralFilterComponent } from '../../shared/components/general-filter/general-filter.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { SharedModule } from '../../shared/shared.module';
   imports: [
     CommonModule,
     ClientsRoutingModule,
-    SharedModule
+    SharedModule,
+    GeneralFilterComponent
   ]
 })
 export class ClientsModule { }

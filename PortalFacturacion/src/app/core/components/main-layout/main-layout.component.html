@@ -1,5 +1,5 @@
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="'navigation'"
         [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
         <mat-toolbar>Menu</mat-toolbar>
         <mat-nav-list>
@@ -8,7 +8,6 @@
                 <mat-icon matListItemIcon>dashboard</mat-icon>
                 <div matListItemTitle>Dashboard</div>
             </a>
-            <!-- Placeholder for future modules -->
             <a mat-list-item routerLink="/facturas" routerLinkActive="active-link"
                 (click)="closeSidenavIfHandset(drawer)">
                 <mat-icon matListItemIcon>receipt</mat-icon>
@@ -33,8 +32,7 @@
     </mat-sidenav>
     <mat-sidenav-content>
         <mat-toolbar color="primary">
-            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
-                *ngIf="isHandset$ | async">
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
                 <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
             <span>Portal Facturación</span>

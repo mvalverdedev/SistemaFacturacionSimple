@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService
   ) {
-    // redirigir a home si ya esta logueado
+
     if (this.authService.valorUsuarioActual) {
       this.router.navigate(['/']);
     }
@@ -34,11 +34,11 @@ export class LoginComponent implements OnInit {
       contrasenia: ['', Validators.required]
     });
 
-    // obtener return url de los parametros de ruta o por defecto a '/'
+
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  // conveniencia para acceder facil a los campos del form
+
   get f() { return this.loginForm.controls; }
 
   ingresar() {

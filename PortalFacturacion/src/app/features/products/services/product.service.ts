@@ -47,10 +47,18 @@ export class ProductService {
     localStorage.removeItem(this.STORAGE_KEY);
   }
 
-  obtenerProductos(pageNumber: number = 1, pageSize: number = 10): Observable<RespuestaPaginada<Producto>> {
+  obtenerProductos(pageNumber: number = 1, pageSize: number = 10, codigo?: string, nombre?: string): Observable<RespuestaPaginada<Producto>> {
     let params = new HttpParams()
       .set('PageNumber', pageNumber.toString())
       .set('PageSize', pageSize.toString());
+
+    if (codigo) {
+      params = params.set('Codigo', codigo);
+    }
+
+    if (nombre) {
+      params = params.set('Nombre', nombre);
+    }
 
     return this.http.get<RespuestaPaginada<Producto>>(this.apiUrl, { params });
   }
